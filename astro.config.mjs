@@ -8,5 +8,7 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   output: "server",
   adapter: vercel(),
-  integrations: [react(), tailwind()]
+  integrations: [react(), tailwind({
+    applyBaseStyles: false,
+  })]
 });
