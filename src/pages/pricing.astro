@@ -1,9 +1,12 @@
 ---
-import PricingItem from "@/components/PricingItem";
+
+import PricingItem from "@/components/pricing/PricingItem";
 import Layout from "@/layouts/Layout.astro";
-import {products} from "@/lib/products";
+import { getProducts } from "@/server/product/product.service"
 const { user } = Astro.locals;
 const loggedIn = !!user;
+
+const products = await getProducts();
 ---
 
 <Layout title="Pricing">

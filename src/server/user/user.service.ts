@@ -5,11 +5,7 @@ export async function getOrCreateUserForSession(userId: string) {
     where: { id: userId },
     select: {
       id: true,
-      roles: {
-        select: {
-          name: true,
-        },
-      },
+      role: true,
     },
   });
 
@@ -17,22 +13,12 @@ export async function getOrCreateUserForSession(userId: string) {
     user = await db.user.create({
       data: {
         id: userId,
-        roles: {
-          connectOrCreate: {
-            where: { name: "user" },
-            create: { name: "user" },
-          },
-        },
       },
       select: {
         id: true,
-        roles: {
-          select: {
-            name: true,
-          },
-        },
+        role: true,
       },
     });
   }
-  return { ...user, roles: user.roles.map((role) => role.name) };
+  return user;
 }

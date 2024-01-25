@@ -2,7 +2,8 @@ import type { Product } from "@/lib/products";
 import { useElementSize, useMouse } from "@mantine/hooks";
 import { CheckIcon, ShieldCloseIcon } from "lucide-react";
 import { useState } from "react";
-
+import { useCheckoutMutation } from "./useCheckoutMutation";
+import { useToast } from "@/components/ui/use-toast"
 
 
 interface IPricingItem {
@@ -18,7 +19,9 @@ export default function PricingItem({
     type,
     loggedIn
 }: IPricingItem) {
-    const loading = false;
+    const { toast } = useToast()
+    const checkoutMutation = useCheckoutMutation();
+
     const { ref: circleEl, width, height } = useElementSize();
     const { ref: cardEl, x, y } = useMouse();
 
@@ -35,7 +38,20 @@ export default function PricingItem({
     }
 
     function handleSubscribe(id: string, role: string) {
-        console.log({ id, role });
+        console.log({id})
+        checkoutMutation.mutate(id, {
+            onSuccess: (data) => {
+               window.location.href = data.url;
+            },
+            onError: (error) => {
+                toast({
+                    title: 'Error',
+                    description: error.message,
+                    variant: 'destructive',
+                })
+                console.log(error);
+            }
+        })
     }
 
     return (
@@ -84,11 +100,11 @@ export default function PricingItem({
                 </p>
 
                 <button
-                    onClick={() => handleSubscribe(id, product.role)}
+                    onClick={() => handleSubscribe(product.id, product.role)}
                     style={{ background: product.color }}
                     className={`rounded-xl text-white text-lg py-4 w-full my-8 font-semibold hover:opacity-80 group relative`}
                 >
-                    {loading ? (
+                    {checkoutMutation.status === 'pending' ? (
                         'Loading...'
                     ) : (
                         <>
