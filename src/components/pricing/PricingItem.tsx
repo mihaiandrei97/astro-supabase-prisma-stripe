@@ -4,17 +4,16 @@ import { CheckIcon, ShieldCloseIcon } from "lucide-react";
 import { useState } from "react";
 import { useCheckoutMutation } from "./useCheckoutMutation";
 import { useToast } from "@/components/ui/use-toast"
+import type { ProPlan } from "@prisma/client";
 
 
 interface IPricingItem {
     type: 'buy' | 'upgrade';
     loggedIn: boolean;
     product: Product;
-    id: string;
 }
 
 export default function PricingItem({
-    id,
     product,
     type,
     loggedIn
@@ -37,9 +36,8 @@ export default function PricingItem({
         setOpacity(0);
     }
 
-    function handleSubscribe(id: string, role: string) {
-        console.log({id})
-        checkoutMutation.mutate(id, {
+    function handleSubscribe(plan: ProPlan) {
+        checkoutMutation.mutate(plan, {
             onSuccess: (data) => {
                window.location.href = data.url;
             },
@@ -64,7 +62,7 @@ export default function PricingItem({
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 className="text-slate-100 p-8 rounded-xl w-[400px] max-w-full relative overflow-hidden z-10 h-full"
-                key={id}
+                key={product.plan}
             >
                 <div
                     ref={circleEl}
@@ -78,7 +76,7 @@ export default function PricingItem({
                 ></div>
 
                 <h3 className="text-3xl font-bold text-center">
-                    PRO {product.name}
+                    {product.name}
                     {/* <span className="bg-purple-800 text-sm font-medium text-white rounded px-4 py-2 shadow-[0_0_25px_2px_rgba(255,255,255,0.2)]">
                         Early Bird Price
                     </span> */}
@@ -100,7 +98,7 @@ export default function PricingItem({
                 </p>
 
                 <button
-                    onClick={() => handleSubscribe(product.id, product.role)}
+                    onClick={() => handleSubscribe(product.plan)}
                     style={{ background: product.color }}
                     className={`rounded-xl text-white text-lg py-4 w-full my-8 font-semibold hover:opacity-80 group relative`}
                 >

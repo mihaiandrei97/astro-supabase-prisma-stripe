@@ -4,6 +4,7 @@ import {
   getOrCreateStripeCustomerId,
   type Metadata,
 } from "@/lib/stripe";
+import { ProPlan } from "@prisma/client";
 import type { APIRoute } from "astro";
 
 export const POST: APIRoute = async ({ request, locals }) => {
@@ -17,8 +18,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
   }
   const body = await request.json();
-  const { id } = body;
-  if (!id && typeof id !== "string") {
+  const { plan } = body;
+  if (!plan && typeof plan !== "string") {
     return new Response(JSON.stringify({ error: "Invalid product id" }), {
       status: 400,
       headers: {
@@ -26,10 +27,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
       },
     });
   }
-  const product = products.find((product) => product.id === id);
+  const product = products.find((product) => product.plan === plan);
   if (!product) {
     return new Response(
-      JSON.stringify({ message: `Product not found with id: ${id}` }),
+      JSON.stringify({ message: `Product not found with plan: ${plan}` }),
       {
         status: 404,
         headers: {
@@ -45,6 +46,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   );
 
   const metadata: Metadata = {
+    plan,
     userId: user.id,
   }
 

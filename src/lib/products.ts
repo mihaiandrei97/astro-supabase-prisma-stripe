@@ -1,5 +1,7 @@
+import { ProPlan } from "@prisma/client";
+
 export type Product = {
-    id: string,
+    plan: ProPlan,
     name: string;
     description: string;
     price: number;
@@ -10,7 +12,7 @@ export type Product = {
 
 export const products: Product[] = [
     {
-      id: "1",
+      plan: ProPlan.BASIC,
       name: "Basic",
       description: "Basic product with essential features",
       price: 2990,
@@ -27,7 +29,7 @@ export const products: Product[] = [
       role: "pro_basic",
     },
     {
-      id: "2",
+      plan: ProPlan.GOLD,
       name: "Gold",
       description: "Premium product with additional features",
       price: 5999,
@@ -44,7 +46,7 @@ export const products: Product[] = [
       role: "pro_gold",
     },
     {
-      id: "3",
+      plan: ProPlan.PLATINUM,
       name: "Platinum",
       description: "Top-tier product with exclusive features",
       price: 9999,

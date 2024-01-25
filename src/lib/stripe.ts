@@ -2,12 +2,14 @@ import Stripe from "stripe";
 import { getBaseUrl } from "./helpers";
 import { db } from "./db/database";
 import type { Product } from "./products";
+import type { ProPlan } from "@prisma/client";
 
 export const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY, {
   apiVersion: "2023-10-16",
 });
 
 export type Metadata = {
+  plan: ProPlan;
   userId: string;
 };
 
@@ -48,7 +50,7 @@ export async function getOrCreateStripeCustomerId(
 export const createCheckoutSession = async (
   product: Product,
   stripeCustomerId: string,
-  metadata?: Stripe.MetadataParam
+  metadata?: Metadata
 ) => {
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
