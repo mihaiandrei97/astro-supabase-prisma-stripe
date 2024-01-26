@@ -1,10 +1,5 @@
 import { products } from "@/lib/products";
-import {
-  createCheckoutSession,
-  getOrCreateStripeCustomerId,
-  type Metadata,
-} from "@/lib/stripe";
-import { ProPlan } from "@prisma/client";
+import { createCheckoutSession, getOrCreateStripeCustomerId, type Metadata } from "@/server/payment/payment.service";
 import type { APIRoute } from "astro";
 
 export const POST: APIRoute = async ({ request, locals }) => {

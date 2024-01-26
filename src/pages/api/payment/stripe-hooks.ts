@@ -1,11 +1,9 @@
 import { products } from "@/lib/products";
 import { stripe } from "@/lib/stripe";
+import { processPayment, type Metadata } from "@/server/payment/payment.service";
 import type { APIRoute } from "astro";
 import type Stripe from "stripe";
 
-type Metadata = {
-  userId: string;
-};
 
 export const POST: APIRoute = async ({ request, locals }) => {
   const signature = request.headers.get("stripe-signature");
@@ -17,7 +15,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
       },
     });
   }
-  // const body = await ;
   const stripeSigningSecret = import.meta.env.STRIPE_SIGNING_SECRET as string;
   try {
     const event = stripe.webhooks.constructEvent(
@@ -41,7 +38,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
         if (!sessionWithLineItems.line_items) {
           throw new Error("No line items found");
         }
-        console.log({ boughtItem: sessionWithLineItems.line_items.data[0] });
+        await processPayment({
+          userId: completedEvent.metadata.userId,
+          plan: completedEvent.metadata.plan,
+          amount: sessionWithLineItems.line_items.data[0].amount_total,
+        })
       }
     }
     return new Response(JSON.stringify({ success: true, error: null }), {
