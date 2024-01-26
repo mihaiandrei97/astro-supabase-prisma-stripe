@@ -6,6 +6,7 @@ export async function getOrCreateUserForSession(userId: string) {
     select: {
       id: true,
       role: true,
+      proTier: true,
     },
   });
 
@@ -17,6 +18,7 @@ export async function getOrCreateUserForSession(userId: string) {
       select: {
         id: true,
         role: true,
+        proTier: true,
       },
     });
   }

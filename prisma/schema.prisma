@@ -29,6 +29,20 @@ model User {
   role             Role     @default(USER)
   proTier          ProTier?
 
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  purchase  Purchase[]
+}
+
+model Purchase {
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  amount Int
+  type   String
+
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([type], name: "purchase_type_idx")
 }

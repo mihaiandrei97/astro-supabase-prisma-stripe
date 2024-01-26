@@ -2,7 +2,7 @@ import { db } from "@/lib/db/database";
 import { getBaseUrl } from "@/lib/helpers";
 import type { Product } from "@/lib/products";
 import { stripe } from "@/lib/stripe";
-import type { ProTier } from "@prisma/client";
+import type { PrismaPromise, ProTier } from "@prisma/client";
 
 export type Metadata = {
   proTier: ProTier;
@@ -80,6 +80,41 @@ export async function createCheckoutSession(
   return session;
 }
 
+export function updateProTierUser({
+  userId,
+  proTier,
+}: {
+  userId: string;
+  proTier: ProTier;
+}) {
+  return db.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      proTier,
+    },
+  });
+}
+
+export function addPurchase({
+  userId,
+  proTier,
+  amount,
+}: {
+  userId: string;
+  proTier: ProTier;
+  amount: number;
+}) {
+  return db.purchase.create({
+    data: {
+      userId,
+      amount,
+      type: `proTier-${proTier}`,
+    },
+  });
+}
+
 export async function processPayment({
   userId,
   proTier,
@@ -89,12 +124,10 @@ export async function processPayment({
   proTier: ProTier;
   amount: number;
 }) {
-  await db.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      proTier: proTier,
-    },
-  });
+  const transactions = [
+    updateProTierUser({ userId, proTier }),
+    addPurchase({ userId, proTier, amount }),
+  ];
+  const result = await db.$transaction(transactions);
+  return result;
 }

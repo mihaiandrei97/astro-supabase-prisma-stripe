@@ -42,6 +42,7 @@ export const onRequest = defineMiddleware(async ({ locals, cookies, url }, next)
   }
 
   if (data.user) {
+    // const username = data.session.user.user_metadata.user_name;
     const user = await getOrCreateUserForSession(data.user.id);
     locals.user = {...user, email: data.user.email};
   }
