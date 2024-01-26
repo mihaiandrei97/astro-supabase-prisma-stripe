@@ -1,17 +1,17 @@
 import { client } from "@/lib/query";
-import type { ProPlan } from "@prisma/client";
+import type { ProTier } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import ky from "ky";
 
-function createCheckoutSession(plan: ProPlan): Promise<{ url: string }> {
-  return ky.post("/api/payment", { json: { plan } }).json();
+function createCheckoutSession(proTier: ProTier): Promise<{ url: string }> {
+  return ky.post("/api/payment", { json: { proTier } }).json();
 }
 
 export function useCheckoutMutation() {
   return useMutation(
     {
       mutationKey: ["checkout"],
-      mutationFn: (plan: ProPlan) => createCheckoutSession(plan),
+      mutationFn: (proTier: ProTier) => createCheckoutSession(proTier),
     },
     client
   );

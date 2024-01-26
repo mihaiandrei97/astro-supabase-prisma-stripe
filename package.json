@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "stripe:listen": "stripe listen --forward-to http://localhost:3000/api/payment/stripe-hooks",
-    "stripe:trigger": "stripe trigger checkout.session.completed"
+    "stripe:trigger": "stripe trigger checkout.session.completed",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",

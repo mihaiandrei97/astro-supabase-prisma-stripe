@@ -2,10 +2,10 @@ import { db } from "@/lib/db/database";
 import { getBaseUrl } from "@/lib/helpers";
 import type { Product } from "@/lib/products";
 import { stripe } from "@/lib/stripe";
-import type { ProPlan } from "@prisma/client";
+import type { ProTier } from "@prisma/client";
 
 export type Metadata = {
-  plan: ProPlan;
+  proTier: ProTier;
   userId: string;
 };
 
@@ -82,11 +82,11 @@ export async function createCheckoutSession(
 
 export async function processPayment({
   userId,
-  plan,
+  proTier,
   amount,
 }: {
   userId: string;
-  plan: ProPlan;
+  proTier: ProTier;
   amount: number;
 }) {
   await db.user.update({
@@ -94,7 +94,7 @@ export async function processPayment({
       id: userId,
     },
     data: {
-      proTier: plan,
+      proTier: proTier,
     },
   });
 }

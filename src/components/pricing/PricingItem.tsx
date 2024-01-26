@@ -4,8 +4,7 @@ import { CheckIcon, ShieldCloseIcon } from "lucide-react";
 import { useState } from "react";
 import { useCheckoutMutation } from "./useCheckoutMutation";
 import { useToast } from "@/components/ui/use-toast"
-import type { ProPlan } from "@prisma/client";
-
+import type { ProTier } from "@prisma/client";
 
 interface IPricingItem {
     type: 'buy' | 'upgrade';
@@ -36,8 +35,8 @@ export default function PricingItem({
         setOpacity(0);
     }
 
-    function handleSubscribe(plan: ProPlan) {
-        checkoutMutation.mutate(plan, {
+    function handleSubscribe(proTier: ProTier) {
+        checkoutMutation.mutate(proTier, {
             onSuccess: (data) => {
                window.location.href = data.url;
             },
@@ -62,7 +61,7 @@ export default function PricingItem({
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 className="text-slate-100 p-8 rounded-xl w-[400px] max-w-full relative overflow-hidden z-10 h-full"
-                key={product.plan}
+                key={product.proTier}
             >
                 <div
                     ref={circleEl}
@@ -98,7 +97,7 @@ export default function PricingItem({
                 </p>
 
                 <button
-                    onClick={() => handleSubscribe(product.plan)}
+                    onClick={() => handleSubscribe(product.proTier)}
                     style={{ background: product.color }}
                     className={`rounded-xl text-white text-lg py-4 w-full my-8 font-semibold hover:opacity-80 group relative`}
                 >

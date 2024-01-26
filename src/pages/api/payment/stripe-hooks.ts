@@ -40,7 +40,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         }
         await processPayment({
           userId: completedEvent.metadata.userId,
-          plan: completedEvent.metadata.plan,
+          proTier: completedEvent.metadata.proTier,
           amount: sessionWithLineItems.line_items.data[0].amount_total,
         })
       }

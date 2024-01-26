@@ -13,8 +13,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
   }
   const body = await request.json();
-  const { plan } = body;
-  if (!plan && typeof plan !== "string") {
+  const { proTier } = body;
+  if (!proTier && typeof proTier !== "string") {
     return new Response(JSON.stringify({ error: "Invalid product id" }), {
       status: 400,
       headers: {
@@ -22,10 +22,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
       },
     });
   }
-  const product = products.find((product) => product.plan === plan);
+  const product = products.find((product) => product.proTier === proTier);
   if (!product) {
     return new Response(
-      JSON.stringify({ message: `Product not found with plan: ${plan}` }),
+      JSON.stringify({ message: `Product not found with proTier: ${proTier}` }),
       {
         status: 404,
         headers: {
@@ -41,7 +41,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   );
 
   const metadata: Metadata = {
-    plan,
+    proTier,
     userId: user.id,
   }
 
