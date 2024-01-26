@@ -131,3 +131,23 @@ export async function processPayment({
   const result = await db.$transaction(transactions);
   return result;
 }
+
+export async function getSales(){
+  const purchases = await db.purchase.findMany({
+    orderBy: {
+      createdAt: 'desc'
+    },
+    select:{
+      id: true,
+      amount: true,
+      createdAt: true,
+      type: true,
+      user: {
+        select: {
+          id: true,
+        }
+      }
+    }
+  });
+  return purchases;
+}
