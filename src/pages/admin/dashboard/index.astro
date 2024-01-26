@@ -1,5 +1,4 @@
 ---
-import Layout from "@/layouts/Layout.astro";
 import {
   Card,
   CardHeader,
@@ -7,6 +6,11 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import Layout from "@/layouts/Layout.astro";
+
+if(Astro.locals.user?.role !== "ADMIN") {
+  return Astro.redirect('/')
+}
 ---
 
 <Layout title="dashboard">

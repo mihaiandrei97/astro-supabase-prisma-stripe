@@ -12,11 +12,18 @@ import {
 } from "@/components/ui/table";
 import { getSales } from "@/server/payment/payment.service";
 
+if(Astro.locals.user?.role !== "ADMIN") {
+  return Astro.redirect('/')
+}
+
 const sales = await getSales();
 const total = sales.reduce((acc, sale) => acc + sale.amount, 0);
 ---
 
 <Layout title="sales">
+  <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl">
+    Sales
+  </h1>
   <Table>
     <TableCaption>A list of your recent sales.</TableCaption>
     <TableHeader>
