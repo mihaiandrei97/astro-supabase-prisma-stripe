@@ -1,7 +1,8 @@
+import { createSupabaseServerClient } from "@/lib/supabase";
 import type { APIRoute } from "astro";
-import { deleteAuthCookies } from "@/lib/cookies";
 
 export const GET: APIRoute = async ({ cookies, redirect }) => {
-  deleteAuthCookies({ cookies })
+  const supabase = createSupabaseServerClient(cookies);
+  await supabase.auth.signOut();
   return redirect("/login");
 };

@@ -7,10 +7,10 @@ function createCheckoutSession(proTier: ProTier): Promise<{ url: string }> {
   return ky.post("/api/payment", { json: { proTier } }).json();
 }
 
-export function useCheckoutMutation() {
+export function useCheckoutMutation(proTier: ProTier) {
   return useMutation(
     {
-      mutationKey: ["checkout"],
+      mutationKey: ["checkout", proTier],
       mutationFn: (proTier: ProTier) => createCheckoutSession(proTier),
     },
     client

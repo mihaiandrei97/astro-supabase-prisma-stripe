@@ -18,7 +18,7 @@ export default function PricingItem({
     loggedIn
 }: IPricingItem) {
     const { toast } = useToast()
-    const checkoutMutation = useCheckoutMutation();
+    const checkoutMutation = useCheckoutMutation(product.proTier);
 
     const { ref: circleEl, width, height } = useElementSize();
     const { ref: cardEl, x, y } = useMouse();

@@ -1,11 +1,10 @@
-import { products } from "@/lib/products";
 import { stripe } from "@/lib/stripe";
 import { processPayment, type Metadata } from "@/server/payment/payment.service";
 import type { APIRoute } from "astro";
 import type Stripe from "stripe";
 
 
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request }) => {
   const signature = request.headers.get("stripe-signature");
   if (!signature) {
     return new Response(JSON.stringify({ error: "Invalid signature" }), {
