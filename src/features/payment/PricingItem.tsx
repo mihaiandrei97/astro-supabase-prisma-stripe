@@ -2,9 +2,9 @@ import type { Product } from "@/lib/products";
 import { useElementSize, useMouse } from "@mantine/hooks";
 import { CheckIcon, ShieldCloseIcon } from "lucide-react";
 import { useState } from "react";
-import { useCheckoutMutation } from "./useCheckoutMutation";
 import { useToast } from "@/components/ui/use-toast"
 import type { ProTier } from "@prisma/client";
+import { useCheckoutMutation } from "./mutations";
 
 interface IPricingItem {
     type: 'buy' | 'upgrade';

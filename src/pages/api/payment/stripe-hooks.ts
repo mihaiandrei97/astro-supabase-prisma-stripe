@@ -1,8 +1,7 @@
 import { stripe } from "@/lib/stripe";
-import { processPayment, type Metadata } from "@/server/payment/payment.service";
+import { processPayment, type Metadata } from "@/features/payment/server";
 import type { APIRoute } from "astro";
 import type Stripe from "stripe";
-
 
 export const POST: APIRoute = async ({ request }) => {
   const signature = request.headers.get("stripe-signature");

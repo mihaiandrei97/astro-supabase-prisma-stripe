@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getSales } from "@/server/payment/payment.service";
+import { getSales } from "@/features/payment/server";
 
 if(Astro.locals.user?.role !== "ADMIN") {
   return Astro.redirect('/')

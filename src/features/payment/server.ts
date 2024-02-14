@@ -2,7 +2,8 @@ import { db } from "@/lib/db/database";
 import { getBaseUrl } from "@/lib/helpers";
 import type { Product } from "@/lib/products";
 import { stripe } from "@/lib/stripe";
-import type { PrismaPromise, ProTier } from "@prisma/client";
+import type { ProTier } from "@prisma/client";
+import { products } from "@/lib/products";
 
 export type Metadata = {
   proTier: ProTier;
@@ -150,4 +151,8 @@ export async function getSales(){
     }
   });
   return purchases;
+}
+
+export async function getProducts() {
+  return products;
 }

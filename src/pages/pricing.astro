@@ -1,8 +1,9 @@
 ---
 
-import PricingItem from "@/components/pricing/PricingItem";
+import PricingItem from "@/features/payment/PricingItem";
+import { getProducts } from "@/features/payment/server";
 import Layout from "@/layouts/Layout.astro";
-import { getProducts } from "@/server/product/product.service"
+
 const { user } = Astro.locals;
 const loggedIn = !!user;
 

@@ -1,5 +1,5 @@
 import { products } from "@/lib/products";
-import { createCheckoutSession, getOrCreateStripeCustomerId, type Metadata } from "@/server/payment/payment.service";
+import { createCheckoutSession, getOrCreateStripeCustomerId, type Metadata } from "@/features/payment/server";
 import type { APIRoute } from "astro";
 
 export const POST: APIRoute = async ({ request, locals }) => {

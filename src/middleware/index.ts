@@ -1,6 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 import { createSupabaseServerClient } from "@/lib/supabase";
-import { getOrCreateUserForSession } from "@/server/user/user.service";
+import { getOrCreateUserForSession } from "@/features/user/server";
 
 const PATHS_TO_IGNORE = ["/ignore"];
 
