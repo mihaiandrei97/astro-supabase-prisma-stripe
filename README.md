@@ -1,23 +1,5 @@
 # Astro template with Supabase and Stripe
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   ├── layouts/
-│   └── lib/
-│   └── middleware/
-│   └── pages/
-│   └── server/
-└── package.json
-```
-
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:
